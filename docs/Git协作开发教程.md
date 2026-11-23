@@ -1293,6 +1293,25 @@ Git 只能恢复你导出过的 DSL/Prompt。所以改之前先导出、提交�
 
 不需要。队友作为 collaborator 直接推分支、开 PR 更简单。fork 适合开源贡献或没有写权限的场景。
 
+### Q11：`git push` 报 `fatal: No configured push destination` 怎么办？
+
+这表示本地仓库没有配置远程仓库，或者当前分支没有上游，不是代码错误。先在 GitHub/GitLab/Gitee 建一个**空仓库**（不要勾选 README、`.gitignore`、License），然后：
+
+```bash
+git remote add origin git@github.com:OWNER/REPO.git
+git remote -v
+git push -u origin main
+```
+
+如果提示 `remote origin already exists`，改地址：
+
+```bash
+git remote set-url origin <新的仓库地址>
+git push -u origin main
+```
+
+如果当前在 `dev` 分支，把最后一句换成 `git push -u origin dev`。推送时如果要密码，GitHub 不接受账号密码，请用 SSH，或用 Personal Access Token 代替密码；不要把 Token 发给任何人。
+
 ---
 
 ## 14. 命令速查
@@ -1300,6 +1319,9 @@ Git 只能恢复你导出过的 DSL/Prompt。所以改之前先导出、提交�
 | 目的 | 命令 |
 |---|---|
 | 查看状态 | `git status` |
+| 查看远程 | `git remote -v` |
+| 添加远程 | `git remote add origin <url>` |
+| 修改远程地址 | `git remote set-url origin <url>` |
 | 查看分支 | `git branch -a` |
 | 切换分支 | `git switch dev` |
 | 创建并切换 | `git switch -c feat/api-auth` |
